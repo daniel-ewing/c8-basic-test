@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns="http://www.signavio.com/dmn/1.2/diagram/412f6b53e5c149dbb8f1c9323f4fc2a9.xml" xmlns:sigExt="http://www.signavio.com/schema/dmn/1.2/" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" id="id-9d1d0647f29b4125a1a544e9d0b0e991" name="2.1 - Vorbereitung Kontierung: Nutzungsdauer typgebunden ableiten" namespace="http://www.signavio.com/dmn/1.2/diagram/412f6b53e5c149dbb8f1c9323f4fc2a9.xml" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0" sigExt:revisionNumber="11" sigExt:revisionId="9a3aae20a80e4b2fac9b6ad5c9ed2575" camunda:diagramRelationId="123a01ce-2343-4b06-ba39-ef933d6f4219">
+  <dmn:extensionElements />
+  <dmn:itemDefinition id="id-2aaaf0d85c33018113dbd10d14ea974a" label="SOP" name="sOP" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" isCollection="false">
+    <dmn:typeRef>date</dmn:typeRef>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="id-551773633b9595cbe88b6b501a770191" label="EOP" name="eOP" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" isCollection="false">
+    <dmn:typeRef>date</dmn:typeRef>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="id-4c0a661aa5c383cc885343e3ca87d6c8" label="Projektdauer Monate" name="projektdauerMonate" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" isCollection="false">
+    <dmn:typeRef>number</dmn:typeRef>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="id-3b9c761e2d996a19cbf1e2be97aceecb" label="Nutzungsdauer typgebunden  ableiten" name="nutzungsdauerTypgebundenAbleiten" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" isCollection="false">
+    <dmn:typeRef>number</dmn:typeRef>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="id-1ab33dac39b8902c40c50413ddc21076" label="Andere Werkzeuge" name="andereWerkzeuge" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" isCollection="false">
+    <dmn:typeRef>string</dmn:typeRef>
+    <dmn:allowedValues>
+      <dmn:text>"Prototyp","Serienwerkzeug"</dmn:text>
+    </dmn:allowedValues>
+  </dmn:itemDefinition>
+  <dmn:inputData id="id-aa7abf4d2237d848d7c5073115004cbd" label="SOP" name="sOP" sigExt:diagramId="412f6b53e5c149dbb8f1c9323f4fc2a9" sigExt:shapeId="sid-68F65791-6B2D-480E-8578-A3296973427C">
+    <dmn:extensionElements />
+    <dmn:variable id="id-aa7abf4d2237d848d7c5073115004cbd_variable" name="sOP" typeRef="sOP" />
+  </dmn:inputData>
+  <dmn:inputData id="id-5a87da3222693793d453b92c3af06205" label="EOP" name="eOP" sigExt:diagramId="412f6b53e5c149dbb8f1c9323f4fc2a9" sigExt:shapeId="sid-48FBF127-6942-4327-8982-72F68C126330">
+    <dmn:extensionElements />
+    <dmn:variable id="id-5a87da3222693793d453b92c3af06205_variable" name="eOP" typeRef="eOP" />
+  </dmn:inputData>
+  <dmn:inputData id="id-75486e8259add3bb5f7d60f42c5e4381" label="Andere Werkzeuge" name="andereWerkzeuge" sigExt:diagramId="412f6b53e5c149dbb8f1c9323f4fc2a9" sigExt:shapeId="sid-A35398F1-01B9-497F-B252-92CD349C0361">
+    <dmn:extensionElements />
+    <dmn:variable id="id-75486e8259add3bb5f7d60f42c5e4381_variable" name="andereWerkzeuge" typeRef="andereWerkzeuge" />
+  </dmn:inputData>
+  <dmn:decision id="getPeriods" label="Nutzungsdauer typgebunden  ableiten" name="monateJahreTageErmitteln" sigExt:diagramId="412f6b53e5c149dbb8f1c9323f4fc2a9" sigExt:shapeId="sid-741A3C59-5556-4902-9DE4-26705772A026">
+    <dmn:extensionElements />
+    <dmn:variable id="id-51a34615169bc23762d5ed143117e6fa_variable" name="nutzungsdauerTypgebundenAbleiten" typeRef="nutzungsdauerTypgebundenAbleiten" />
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#id-5a87da3222693793d453b92c3af06205" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#id-aa7abf4d2237d848d7c5073115004cbd" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#id-75486e8259add3bb5f7d60f42c5e4381" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable>
+      <dmn:input id="id-707b682e497122208ce5234cf06f89ed" label="sop">
+        <dmn:inputExpression typeRef="date">
+          <dmn:text>date and time(sop)</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="id-8d2f498a85b0c28d928c0f5bc6e74daa" label="eop">
+        <dmn:inputExpression typeRef="date">
+          <dmn:text>date and time(eop)</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="OutputClause_0dmrwei" label="Tage" name="tage" typeRef="number" />
+      <dmn:output id="id-cd2507e53a14271871f67d7e8436f1e9" label="Monate" name="monate" typeRef="number" biodi:width="192" />
+      <dmn:output id="OutputClause_1demezj" label="Jahre" name="jahre" typeRef="number" />
+      <dmn:annotation name="New Annotation" />
+      <dmn:rule id="id-6d49a1e40252be52003e198630922d2d">
+        <dmn:inputEntry>
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry>
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="LiteralExpression_0t2j0j5">
+          <dmn:text>date and time(eop).day - date and time(sop).day</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry>
+          <dmn:text>date and time(eop).month - date and time(sop).month</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="LiteralExpression_05pmv8f">
+          <dmn:text>date and time(eop).year- date and time(sop).year</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>string(-)</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="nutzungsdauerTypgebundenAbleiten" name="Nutzungsdauer Typgebunden Ableiten">
+    <dmn:informationRequirement id="InformationRequirement_1sp0pxq">
+      <dmn:requiredDecision href="#getPeriods" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="DecisionTable_0vf0bwd">
+      <dmn:input id="InputClause_0vztomx" label="Tage" camunda:inputVariable="tage">
+        <dmn:inputExpression id="LiteralExpression_0xhnki0" typeRef="number">
+          <dmn:text>getPeriods.tage</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="OutputClause_0tjyxpu" label="Nutzungsdauer" name="nutzungsdauer" typeRef="number" />
+      <dmn:rule id="DecisionRule_0c2ihkk">
+        <dmn:inputEntry id="UnaryTests_0nw8kpn">
+          <dmn:text>&gt;=0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="LiteralExpression_0qaf4dt">
+          <dmn:text>jahre*12+monate</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="DecisionRule_0kzb2tp">
+        <dmn:inputEntry id="UnaryTests_0ivjqln">
+          <dmn:text>&lt;0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="LiteralExpression_08shtms">
+          <dmn:text>jahre*12+monate-1</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_07uug6d">
+      <dmndi:DMNShape id="DMNShape_09ptyqz" dmnElementRef="getPeriods">
+        <dc:Bounds height="80" width="180" x="270" y="260" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1fn38c3" dmnElementRef="InformationRequirement_1sp0pxq">
+        <di:waypoint x="360" y="260" />
+        <di:waypoint x="220" y="180" />
+        <di:waypoint x="220" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0oi0xsu" dmnElementRef="nutzungsdauerTypgebundenAbleiten">
+        <dc:Bounds height="80" width="180" x="130" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>

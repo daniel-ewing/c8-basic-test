@@ -17,9 +17,10 @@ import java.time.Instant;
 @SpringBootApplication
 @EnableZeebeClient
 @Slf4j
-@ZeebeDeployment(resources = "classpath*:/bpmn/**/*.bpmn")
+@ZeebeDeployment(resources = {"classpath*:/bpmn/**/*.bpmn", "classpath*:/dmn/**/*.dmn"})
 public class Application {
-    private final static String processKey = "simple-variables";
+    private final static String processKey1 = "testMultiLevelDmn";
+    private final static String processKey2 = "get-test";
 
     @Autowired
     private ZeebeClient client;
@@ -31,14 +32,20 @@ public class Application {
     @EventListener
     private void ApplicationReadyEvent(ApplicationReadyEvent event) {
             if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent: Enter");
-            for (int pi = 1; pi <= 5; pi++) {
+            for (int pi = 1; pi <= 1; pi++) {
 
                 // blocking / synchronous creation of a process instance
-                ProcessInstanceEvent processInstanceEvent = client.newCreateInstanceCommand()
-                        .bpmnProcessId(processKey)
+                ProcessInstanceEvent processInstanceEvent1 = client.newCreateInstanceCommand()
+                        .bpmnProcessId(processKey1)
                         .latestVersion()
                         .send()
                         .join();
+
+//                ProcessInstanceEvent processInstanceEvent2 = client.newCreateInstanceCommand()
+//                        .bpmnProcessId(processKey2)
+//                        .latestVersion()
+//                        .send()
+//                        .join();
 
                 // non-blocking / asynchronous creation of a process instance  => returns a future
 //                final ZeebeFuture<ProcessInstanceEvent> future = client.newCreateInstanceCommand()

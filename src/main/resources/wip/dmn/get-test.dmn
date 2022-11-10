@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="get-test-dmn" name="Get Test" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0" camunda:diagramRelationId="a0b0f61c-4ee4-432d-b5a3-9e45c2593a14">
+  <decision id="decisionFemale" name="Female">
+    <informationRequirement id="InformationRequirement_106qrbh">
+      <requiredInput href="#InputData_0rlyvut" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_10wu1hq">
+      <requiredInput href="#InputData_150k0ie" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0azx1hv">
+      <input id="Input_1" label="Age">
+        <inputExpression id="InputExpression_1" typeRef="number">
+          <text>age</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0d8alw4" label="Gender">
+        <inputExpression id="LiteralExpression_08918w7" typeRef="string">
+          <text>gender</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Blood Test Required" name="bloodTestRequired" typeRef="boolean" />
+      <output id="OutputClause_0zvro7w" label="BMI Check Required" name="bmiCheckRequired" typeRef="boolean" />
+      <rule id="DecisionRule_1pj2ald">
+        <inputEntry id="UnaryTests_14vug9p">
+          <text>[0..18]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0f9oyh0">
+          <text>"Female"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1rkwf8g">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_09ez6pc">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0fwe2xe">
+        <inputEntry id="UnaryTests_09r45r7">
+          <text>[19..40]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08pnzmy">
+          <text>"Female"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1isgu45">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04u3qle">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0rlyvut" name="age" />
+  <inputData id="InputData_150k0ie" name="gender" />
+  <decision id="decisionMale" name="Male">
+    <informationRequirement id="InformationRequirement_04xp321">
+      <requiredInput href="#InputData_0rlyvut" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1ucwi8v">
+      <requiredInput href="#InputData_150k0ie" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_11jxw6j">
+      <input id="InputClause_0isuegw" label="Age">
+        <inputExpression id="LiteralExpression_0kjqmlh" typeRef="number">
+          <text>age</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_161r4ns" label="Gender">
+        <inputExpression id="LiteralExpression_0pqgzta" typeRef="string">
+          <text>gender</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_08wjs0j" label="Blood Test Required" name="bloodTestRequired" typeRef="boolean" />
+      <output id="OutputClause_1tv70wg" label="Weight Check Required" name="weightCheckRequired" typeRef="boolean" />
+      <output id="OutputClause_0u2o1qo" label="Foo" name="foo" typeRef="number" />
+      <rule id="DecisionRule_11ob2wl">
+        <inputEntry id="UnaryTests_1n8v27i">
+          <text>&lt;= 18</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tiw28b">
+          <text>"Male"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xmkp9w">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03shcfx">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0k29rhd">
+          <text>1</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cwrx4e">
+        <inputEntry id="UnaryTests_1essh99">
+          <text>&gt; 18</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05mkydb">
+          <text>"Male"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ki9hvw">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0e4jsqp">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1o62peb">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="allTestsRequired" name="Tests Required">
+    <informationRequirement id="InformationRequirement_0hr9esr">
+      <requiredDecision href="#decisionFemale" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_04idcvn">
+      <requiredDecision href="#decisionMale" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_071d8ev">
+      <input id="InputClause_0f5ntd4">
+        <inputExpression id="LiteralExpression_0y3wph6" typeRef="boolean">
+          <text>if decisionMale.bloodTestRequired != null then decisionMale.bloodTestRequired else decisionFemale.bloodTestRequired</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0cebsup" label="Foo">
+        <inputExpression id="LiteralExpression_0lp9i3i" typeRef="number">
+          <text>decisionMale.foo</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0ya9fih" label="Test Name" name="testName" typeRef="string" />
+      <rule id="DecisionRule_0jxbtyn">
+        <inputEntry id="UnaryTests_1due4w2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07imu7d">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1usn9wu">
+          <text>"Platelets check, HB check"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_155jzz6">
+        <inputEntry id="UnaryTests_0o4hp4c">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13soib5">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_09exlmg">
+          <text>"NA"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="decisionFemale">
+        <dc:Bounds height="80" width="180" x="160" y="260" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0jk85sn" dmnElementRef="InputData_0rlyvut">
+        <dc:Bounds height="45" width="125" x="247" y="438" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0l4rooa" dmnElementRef="InputData_150k0ie">
+        <dc:Bounds height="45" width="125" x="418" y="439" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0oqv3o4" dmnElementRef="InformationRequirement_106qrbh">
+        <di:waypoint x="310" y="438" />
+        <di:waypoint x="220" y="360" />
+        <di:waypoint x="220" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1m3eql5" dmnElementRef="InformationRequirement_10wu1hq">
+        <di:waypoint x="481" y="439" />
+        <di:waypoint x="280" y="360" />
+        <di:waypoint x="280" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_13w6fvy" dmnElementRef="InformationRequirement_04xp321">
+        <di:waypoint x="310" y="438" />
+        <di:waypoint x="490" y="360" />
+        <di:waypoint x="490" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_04ws3yu" dmnElementRef="InformationRequirement_1ucwi8v">
+        <di:waypoint x="481" y="439" />
+        <di:waypoint x="550" y="360" />
+        <di:waypoint x="550" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0d4u13m" dmnElementRef="decisionMale">
+        <dc:Bounds height="80" width="180" x="430" y="260" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_13u9tyh" dmnElementRef="InformationRequirement_0hr9esr">
+        <di:waypoint x="250" y="260" />
+        <di:waypoint x="360" y="180" />
+        <di:waypoint x="360" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0d6qfpc" dmnElementRef="InformationRequirement_04idcvn">
+        <di:waypoint x="520" y="260" />
+        <di:waypoint x="420" y="180" />
+        <di:waypoint x="420" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1a8hthu" dmnElementRef="allTestsRequired">
+        <dc:Bounds height="80" width="180" x="300" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

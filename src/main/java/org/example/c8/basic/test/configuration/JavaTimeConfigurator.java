@@ -12,11 +12,10 @@ import java.text.SimpleDateFormat;
 @Component
 public class JavaTimeConfigurator {
 
-    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Bean
     public ObjectMapper configureObjectMapper() {
-//    public ObjectMapper configureObjectMapper(ObjectMapper objectMapper) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DEFAULT_DATE_FORMAT);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(dateFormat);

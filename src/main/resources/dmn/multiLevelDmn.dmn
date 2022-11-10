@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="multiLevelDmn" name="Multi Level Dmn" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.5.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0">
+  <decision id="getMonthsInPeriod" name="Get Months In Period">
+    <informationRequirement id="InformationRequirement_08brv4b">
+      <requiredDecision href="#getPeriodSegments" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0miy76r">
+      <input id="Input_1" label="Days">
+        <inputExpression id="InputExpression_1" typeRef="number">
+          <text>getPeriodSegments.days</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Months In Period" name="monthsInPeriod" typeRef="number" />
+      <rule id="DecisionRule_038feyu">
+        <inputEntry id="UnaryTests_1i796ts">
+          <text>&gt;=0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16m697e">
+          <text>getPeriodSegments.years * 12 + getPeriodSegments.months</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0aax6an">
+        <inputEntry id="UnaryTests_0al040x">
+          <text>&lt;0</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0c70iir">
+          <text>getPeriodSegments.years * 12 + getPeriodSegments.months - 1</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="getPeriodSegments" name="Get Period Segments">
+    <informationRequirement id="InformationRequirement_1nx64hr">
+      <requiredInput href="#InputData_0cymj7o" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1pitifo">
+      <requiredInput href="#InputData_1yfp34y" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1is3ao1">
+      <input id="InputClause_0hyxg64" label="Start of Period">
+        <inputExpression id="LiteralExpression_1jt4dxk" typeRef="number">
+          <text>sop</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1b6yzvu" label="End of Period">
+        <inputExpression id="LiteralExpression_19ygg50" typeRef="number">
+          <text>eop</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0r7ky58" label="Days" name="days" typeRef="number" />
+      <output id="OutputClause_0bblhw1" label="Months" name="months" typeRef="number" />
+      <output id="OutputClause_09gpga9" label="Years" name="years" typeRef="number" />
+      <rule id="DecisionRule_1xvdyil">
+        <inputEntry id="UnaryTests_06rh14h">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1aow0hj">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tdp5wt">
+          <text>date and time(eop).day - date and time(sop).day</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kjby60">
+          <text>date and time(eop).month - date and time(sop).month</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dx7n7n">
+          <text>date and time(eop).year - date and time(sop).year</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0cymj7o" name="sop" />
+  <inputData id="InputData_1yfp34y" name="eop" />
+  <inputData id="InputData_0r3sz2e" name="sop" />
+  <inputData id="InputData_15h7vxk" name="eop" />
+  <decision id="getDescription" name="Get Description">
+    <informationRequirement id="InformationRequirement_0da5cfz">
+      <requiredDecision href="#getDays" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_05xllyx">
+      <input id="InputClause_0fh3d9c" label="Days">
+        <inputExpression id="LiteralExpression_0dl2jdp" typeRef="number">
+          <text>getDays</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1el6b90" label="Description" name="description" typeRef="string">
+        <outputValues id="UnaryTests_0bt9ref">
+          <text>"Less than 3 months","3 to 12 months","Greater than 12 months"</text>
+        </outputValues>
+      </output>
+      <rule id="DecisionRule_1qiq85s">
+        <inputEntry id="UnaryTests_1r4sms7">
+          <text>&lt;= 90</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1atz12t">
+          <text>"Less than 3 months"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06s7m5l">
+        <inputEntry id="UnaryTests_0cjzm9g">
+          <text>(90..365]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ae5cwz">
+          <text>"3 to 12 months"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hd1pqb">
+        <inputEntry id="UnaryTests_1ttls2t">
+          <text>&gt; 365</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1m494s8">
+          <text>"Greater than 12 months"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="getDays" name="Get Days">
+    <informationRequirement id="InformationRequirement_0ic8cjf">
+      <requiredInput href="#InputData_0r3sz2e" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_06jjwyh">
+      <requiredInput href="#InputData_15h7vxk" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0u6ii8m">
+      <input id="InputClause_1ap8ng6" label="Start of Period">
+        <inputExpression id="LiteralExpression_0aq8o0l" typeRef="number">
+          <text>sop</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_05lrre3" label="End of Period">
+        <inputExpression id="LiteralExpression_0efpw3i" typeRef="number">
+          <text>eop</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_00eicf2" label="Days" name="days" typeRef="number" />
+      <rule id="DecisionRule_1cks2kk">
+        <inputEntry id="UnaryTests_03ekzrw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07r9op7">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1bup7f2">
+          <text>((date and time(eop)) - (date and time(sop))).days</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <textAnnotation id="TextAnnotation_19c1co9">
+    <text>Start of Period</text>
+  </textAnnotation>
+  <association id="Association_14wca5t">
+    <sourceRef href="#TextAnnotation_19c1co9" />
+    <targetRef href="#InputData_0cymj7o" />
+  </association>
+  <textAnnotation id="TextAnnotation_04m4xcm">
+    <text>End of Period</text>
+  </textAnnotation>
+  <association id="Association_0z5eyty">
+    <sourceRef href="#TextAnnotation_04m4xcm" />
+    <targetRef href="#InputData_1yfp34y" />
+  </association>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="getMonthsInPeriod">
+        <dc:Bounds height="80" width="180" x="210" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0f29ka7" dmnElementRef="InformationRequirement_08brv4b">
+        <di:waypoint x="300" y="280" />
+        <di:waypoint x="300" y="200" />
+        <di:waypoint x="300" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0jkx6n4" dmnElementRef="getPeriodSegments">
+        <dc:Bounds height="80" width="180" x="210" y="280" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0882a3h" dmnElementRef="InputData_0cymj7o">
+        <dc:Bounds height="45" width="125" x="157" y="427" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1x5mpaq" dmnElementRef="InformationRequirement_1nx64hr">
+        <di:waypoint x="220" y="427" />
+        <di:waypoint x="270" y="380" />
+        <di:waypoint x="270" y="360" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0gfmsoy" dmnElementRef="TextAnnotation_19c1co9">
+        <dc:Bounds height="30" width="100" x="170" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_18rm04h" dmnElementRef="Association_14wca5t">
+        <di:waypoint x="220" y="500" />
+        <di:waypoint x="220" y="472" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1xo2b30" dmnElementRef="InputData_1yfp34y">
+        <dc:Bounds height="45" width="125" x="347" y="427" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1vljv2d" dmnElementRef="InformationRequirement_1pitifo">
+        <di:waypoint x="410" y="427" />
+        <di:waypoint x="330" y="380" />
+        <di:waypoint x="330" y="360" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0xaccek" dmnElementRef="TextAnnotation_04m4xcm">
+        <dc:Bounds height="30" width="100" x="360" y="500" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0gwweya" dmnElementRef="Association_0z5eyty">
+        <di:waypoint x="410" y="500" />
+        <di:waypoint x="410" y="472" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_071ky22" dmnElementRef="InformationRequirement_0da5cfz">
+        <di:waypoint x="710" y="280" />
+        <di:waypoint x="710" y="200" />
+        <di:waypoint x="710" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0hyl12b" dmnElementRef="InputData_0r3sz2e">
+        <dc:Bounds height="45" width="125" x="567" y="427" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0zjx781" dmnElementRef="InformationRequirement_0ic8cjf">
+        <di:waypoint x="630" y="427" />
+        <di:waypoint x="680" y="380" />
+        <di:waypoint x="680" y="360" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0mpf9ke" dmnElementRef="InputData_15h7vxk">
+        <dc:Bounds height="45" width="125" x="747" y="427" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0sxwg20" dmnElementRef="InformationRequirement_06jjwyh">
+        <di:waypoint x="810" y="427" />
+        <di:waypoint x="740" y="380" />
+        <di:waypoint x="740" y="360" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_06rq5fy" dmnElementRef="getDescription">
+        <dc:Bounds height="80" width="180" x="620" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0x4jlw5" dmnElementRef="getDays">
+        <dc:Bounds height="80" width="180" x="620" y="280" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
