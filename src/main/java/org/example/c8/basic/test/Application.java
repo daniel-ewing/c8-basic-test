@@ -19,7 +19,7 @@ import java.time.Instant;
 @Slf4j
 @ZeebeDeployment(resources = "classpath*:/bpmn/**/*.bpmn")
 public class Application {
-    private final static String processKey = "simple-variables";
+    private final static String processKey = "main-process";
 
     @Autowired
     private ZeebeClient client;
@@ -31,7 +31,7 @@ public class Application {
     @EventListener
     private void ApplicationReadyEvent(ApplicationReadyEvent event) {
             if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent: Enter");
-            for (int pi = 1; pi <= 5; pi++) {
+            for (int pi = 1; pi <= 1; pi++) {
 
                 // blocking / synchronous creation of a process instance
                 ProcessInstanceEvent processInstanceEvent = client.newCreateInstanceCommand()

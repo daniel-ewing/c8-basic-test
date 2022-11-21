@@ -1,13 +1,30 @@
-# Local Zeebe Cluster
+## Local Zeebe Cluster
+#zeebe:
+#  client:
+#    broker:
+#      gateway-address: 127.0.0.1:26500
+#    message:
+#      timeToLive: P7D
+#    security:
+#      plaintext: true
+##      certificatePath: /home/administrator/software/camunda/zeebe/certificates/cert.pem
+#    worker:
+#      max-jobs-active: 32
+#      threads: 2
+
+# Dev Zeebe Cluster
 zeebe:
   client:
-    broker:
-      gateway-address: 127.0.0.1:26500
+    cloud:
+      cluster-id:
+      client-id:
+      client-secret:
+      base-url: zeebe.dev.ultrawombat.com
+      port: 443
+      auth-url: https://login.cloud.dev.ultrawombat.com/oauth/token
+      region: bru-2
     message:
       timeToLive: P7D
-    security:
-      plaintext: true
-#      certificatePath: /home/administrator/software/camunda/zeebe/certificates/cert.pem
     worker:
       max-jobs-active: 32
       threads: 2
