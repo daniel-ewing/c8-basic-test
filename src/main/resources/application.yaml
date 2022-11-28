@@ -9,8 +9,8 @@ zeebe:
       plaintext: true
 #      certificatePath: /home/administrator/software/camunda/zeebe/certificates/cert.pem
     worker:
-      max-jobs-active: 32
-      threads: 2
+      max-jobs-active: 1
+      threads: 1
 
 logging:
   file:

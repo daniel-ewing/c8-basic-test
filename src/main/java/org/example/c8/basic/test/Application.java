@@ -4,7 +4,7 @@ import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
 import io.camunda.zeebe.spring.client.EnableZeebeClient;
-import io.camunda.zeebe.spring.client.annotation.ZeebeDeployment;
+import io.camunda.zeebe.spring.client.annotation.Deployment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -17,9 +17,9 @@ import java.time.Instant;
 @SpringBootApplication
 @EnableZeebeClient
 @Slf4j
-@ZeebeDeployment(resources = "classpath*:/bpmn/**/*.bpmn")
+@Deployment(resources = "classpath*:/bpmn/**/*.bpmn")
 public class Application {
-    private final static String processKey = "simple-variables";
+    private final static String processKey = "process";
 
     @Autowired
     private ZeebeClient client;
@@ -31,7 +31,7 @@ public class Application {
     @EventListener
     private void ApplicationReadyEvent(ApplicationReadyEvent event) {
             if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent: Enter");
-            for (int pi = 1; pi <= 5; pi++) {
+            for (int pi = 1; pi <= 50; pi++) {
 
                 // blocking / synchronous creation of a process instance
                 ProcessInstanceEvent processInstanceEvent = client.newCreateInstanceCommand()
@@ -39,12 +39,6 @@ public class Application {
                         .latestVersion()
                         .send()
                         .join();
-
-                // non-blocking / asynchronous creation of a process instance  => returns a future
-//                final ZeebeFuture<ProcessInstanceEvent> future = client.newCreateInstanceCommand()
-//                        .bpmnProcessId(processKey)
-//                        .latestVersion()
-//                        .send();
 
                 if ((pi % 1000) == 0) {
                     if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent created: {} process instances", pi);
