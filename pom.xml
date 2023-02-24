@@ -10,9 +10,9 @@
 
     <properties>
         <spin.version>1.9.0</spin.version>
-        <zeebe.starter.version>1.2.8</zeebe.starter.version>
-        <spring.version>2.6.2</spring.version>
-        <lombok.version>1.18.22</lombok.version>
+        <zeebe.starter.version>8.1.0</zeebe.starter.version>
+        <spring.version>2.7.7</spring.version>
+        <lombok.version>1.18.24</lombok.version>
         <jackson.version>2.13.0</jackson.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>

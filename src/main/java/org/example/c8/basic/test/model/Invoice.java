@@ -8,25 +8,27 @@ public class Invoice implements Serializable {
     private static final long serialVersionUID = 1L;
     private Address billingAddress;
     private Address shippingAddress;
-    private final List<InvoiceItem> items;
+    private final List<InvoiceLine> items;
+    private Double costTotal;
 
     public Invoice() {
-        this.items = initItems();
+        items = initItems();
     }
 
     public Invoice(Address billingAddress) {
         this.billingAddress = billingAddress;
         this.shippingAddress = billingAddress;
-        this.items = initItems();
+        items = initItems();
     }
 
     public Invoice(Address billingAddress, Address shippingAddress) {
         this.billingAddress = billingAddress;
         this.shippingAddress = shippingAddress;
-        this.items = initItems();
+        items = initItems();
     }
 
-    private List<InvoiceItem> initItems() {
+    private List<InvoiceLine> initItems() {
+        costTotal = 0D;
         return new ArrayList<>();
     }
 
@@ -46,11 +48,27 @@ public class Invoice implements Serializable {
         this.shippingAddress = shippingAddress;
     }
 
-    public List<InvoiceItem> getItems() {
+    public List<InvoiceLine> getItems() {
         return items;
     }
 
+    public Double getCostTotal() {
+        return costTotal;
+    }
+
+    private void setCostTotal() {
+        costTotal = 0D;
+        for (int i = 0; i < items.size(); i++) {
+            costTotal += items.get(i).getCostLine();
+        }
+    }
+
     public void addItem(int quantity, String description, Double costEach) {
-        items.add(new InvoiceItem(quantity, description, costEach));
+        items.add(new InvoiceLine(quantity, description, costEach));
+        setCostTotal();
+    }
+    public void clearItems() {
+        items.clear();
+        costTotal = 0D;
     }
 }
