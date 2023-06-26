@@ -10,7 +10,8 @@
 
     <properties>
         <spin.version>1.9.0</spin.version>
-        <zeebe.starter.version>8.1.0</zeebe.starter.version>
+        <zeebe.starter.version>8.2.0</zeebe.starter.version>
+        <zeebe.version>8.2.5</zeebe.version>
         <spring.version>2.7.7</spring.version>
         <lombok.version>1.18.24</lombok.version>
         <jackson.version>2.13.0</jackson.version>
@@ -34,9 +35,14 @@
     <dependencies>
         <dependency>
             <groupId>io.camunda</groupId>
-            <artifactId>spring-zeebe-starter</artifactId>
-            <version>${zeebe.starter.version}</version>
+            <artifactId>zeebe-client-java</artifactId>
+            <version>${zeebe.version}</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.camunda.spring</groupId>-->
+<!--            <artifactId>spring-boot-starter-camunda</artifactId>-->
+<!--            <version>${zeebe.starter.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -70,6 +76,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>9</source>
+                    <target>9</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
