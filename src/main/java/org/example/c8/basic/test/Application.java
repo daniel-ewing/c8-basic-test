@@ -31,8 +31,8 @@ public class Application {
     @EventListener
     private void ApplicationReadyEvent(ApplicationReadyEvent event) {
             if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent: Enter");
-            for (int pi = 1; pi <= 5; pi++) {
-
+            for (int pi = 1; pi <= 0; pi++) {
+client.newTopologyRequest().
                 // blocking / synchronous creation of a process instance
                 ProcessInstanceEvent processInstanceEvent = client.newCreateInstanceCommand()
                         .bpmnProcessId(processKey)
