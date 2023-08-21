@@ -7,16 +7,15 @@ zeebe:
       timeToLive: P7D
     security:
       plaintext: true
-#      certificatePath: /home/administrator/software/camunda/zeebe/certificates/cert.pem
     worker:
       max-jobs-active: 32
       threads: 2
 
-logging:
-  file:
-    path: ./logs           # specify a path to write to file, otherwise it defaults to the console.
-  level:
-    org.example.c8.basic.test: DEBUG
+#logging:
+#  file:
+#    path: ./logs           # specify a path to write to file, otherwise it defaults to the console.
+#  level:
+#    org.example.c8.basic.test: DEBUG
 
 ## Production Zeebe Cluster
 #zeebe:
