@@ -15,8 +15,10 @@
         <lombok.version>1.18.28</lombok.version>
         <jackson.version>2.15.2</jackson.version>
 
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <zeebe.process.test.version>8.2.8</zeebe.process.test.version>
+
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
@@ -51,6 +53,13 @@
             <groupId>org.camunda.spin</groupId>
             <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
             <version>${spin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.camunda</groupId>
+            <artifactId>zeebe-process-test-extension-testcontainer</artifactId>
+            <version>${zeebe.process.test.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

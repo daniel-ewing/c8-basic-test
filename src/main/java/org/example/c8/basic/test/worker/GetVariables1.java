@@ -16,10 +16,14 @@ public class GetVariables1 {
 
 //        Application.logJob("handleGetVariables1", job, null);
 
-        Integer anInteger1 = (Integer)job.getVariablesAsMap().get("anInteger1");
-        String aString1 = (String)job.getVariablesAsMap().get("aString1");
-        if (log.isDebugEnabled()) log.debug("-----> handleGetVariables1: anInteger1 = {}, aString1 = {}", anInteger1, aString1);
+        String var1 = (String)job.getVariablesAsMap().get("var1");
+        String var2 = (String)job.getVariablesAsMap().get("var2");
+        if (log.isDebugEnabled()) log.debug("-----> handleGetVariables1: var1 = {}, var2 = {}", var1, var2);
 
+//        Integer anInteger1 = (Integer)job.getVariablesAsMap().get("anInteger1");
+//        String aString1 = (String)job.getVariablesAsMap().get("aString1");
+//        if (log.isDebugEnabled()) log.debug("-----> handleGetVariables1: anInteger1 = {}, aString1 = {}", anInteger1, aString1);
+//
         client.newCompleteCommand(job.getKey()).send().whenComplete((result, exception) -> {
                     if (exception == null) {
                         if (log.isDebugEnabled()) log.debug("Completed job successfully");
