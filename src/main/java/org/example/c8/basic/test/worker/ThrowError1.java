@@ -21,7 +21,7 @@ public class ThrowError1 {
         currentVariables.forEach((k, v) -> {System.out.println("-----> %s - handleThrowError1: %s = %s".formatted(job.getBpmnProcessId(), k, v));});
 
         Map<String, Object> errorVariables = new HashMap<>();
-        errorVariables.put("var1", "val1");
+        errorVariables.put("errorVar1", "errorVal1");
 
         client.newThrowErrorCommand(job).errorCode("errorCode1")
                 .errorMessage("Error Message 1").variables(errorVariables).send();
