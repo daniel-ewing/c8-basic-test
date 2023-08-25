@@ -20,8 +20,8 @@ import java.time.Instant;
 @Slf4j
 @ZeebeDeployment(resources = "classpath*:/bpmn/**/*.bpmn")
 public class Application {
-    private final static String processKey = "process";
-//    private final static String processKey = "simple-variables";
+//    private final static String processKey = "process";
+    private final static String processKey = "simple-variables";
 
     @Autowired
     private ZeebeClient client;

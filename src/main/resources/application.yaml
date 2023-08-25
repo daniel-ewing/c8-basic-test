@@ -9,13 +9,13 @@ zeebe:
       plaintext: true
     worker:
       max-jobs-active: 32
-      threads: 2
+      threads: 20
 
-#logging:
+logging:
 #  file:
 #    path: ./logs           # specify a path to write to file, otherwise it defaults to the console.
-#  level:
-#    org.example.c8.basic.test: DEBUG
+  level:
+    org.example.c8.basic.test: DEBUG
 
 ## Production Zeebe Cluster
 #zeebe:
