@@ -2,7 +2,7 @@ package org.example.c8.basic.test;
 
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
-import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
+import io.camunda.zeebe.client.api.response.ProcessInstanceResult;
 import io.camunda.zeebe.spring.client.EnableZeebeClient;
 import io.camunda.zeebe.spring.client.annotation.ZeebeDeployment;
 import lombok.extern.slf4j.Slf4j;
@@ -13,16 +13,16 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @EnableZeebeClient
 @Slf4j
 @ZeebeDeployment(resources = "classpath*:/bpmn/**/*.bpmn")
 public class Application {
-    private final static String processKey1 = "process1";
-    private final static String processKey2 = "process2";
-    private final static String processKey3 = "process3";
-//    private final static String processKey = "simple-variables";
+    private final static String processKey = "process";
 
     @Autowired
     private ZeebeClient client;
@@ -36,27 +36,20 @@ public class Application {
             if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent: Enter");
             for (int pi = 1; pi <= 1; pi++) {
 
+                Map<String, Object> initVariables = new HashMap<>();
+                initVariables.put("initVar1", "initVal");
 
-                // blocking / synchronous creation of a process instance
-                final ProcessInstanceEvent processInstanceEvent1 = client.newCreateInstanceCommand()
-                        .bpmnProcessId(processKey1)
+                final ProcessInstanceResult processInstanceResult = client.newCreateInstanceCommand()
+                        .bpmnProcessId(processKey)
                         .latestVersion()
+                        .variables(initVariables)
+                        .withResult()
+                        .fetchVariables("errorVar", "localErrorVar")
                         .send()
-                        .join();
+                        .join(10, TimeUnit.SECONDS);
 
-                // blocking / synchronous creation of a process instance
-                final ProcessInstanceEvent processInstanceEvent2 = client.newCreateInstanceCommand()
-                        .bpmnProcessId(processKey2)
-                        .latestVersion()
-                        .send()
-                        .join();
-
-                // blocking / synchronous creation of a process instance
-                final ProcessInstanceEvent processInstanceEvent3 = client.newCreateInstanceCommand()
-                        .bpmnProcessId(processKey3)
-                        .latestVersion()
-                        .send()
-                        .join();
+                processInstanceResult.getVariablesAsMap()
+                        .forEach((k, v) -> System.out.println("-----> ApplicationReadyEvent: %s = %s".formatted(k, v)));
 
                 if ((pi % 1000) == 0) {
                     if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent created: {} process instances", pi);
