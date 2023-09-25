@@ -1,11 +1,12 @@
 package org.example.c8.basic.test;
 
 import io.camunda.zeebe.client.ZeebeClient;
-import io.camunda.zeebe.client.api.response.CancelProcessInstanceResponse;
 import io.camunda.zeebe.client.api.response.PublishMessageResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
+@Slf4j
 public class Application {
 
 
@@ -25,7 +26,17 @@ public class Application {
                     .send()
                     .join();
 
-            CancelProcessInstanceResponse cancelProcessInstanceResponse = client.newCancelInstanceCommand(1L).send().join();
+//            CancelProcessInstanceResponse cancelProcessInstanceResponse = client.newCancelInstanceCommand(1L).send().join();
+
+            client.newCancelInstanceCommand(1L)
+                    .send()
+                    .whenComplete((result, exception) -> {
+                        if (exception == null) {
+                            if (log.isDebugEnabled()) log.debug("Completed successfully");
+                        } else {
+                            log.error("Failed to complete", exception);
+                        }
+                    });
 
 
         }
