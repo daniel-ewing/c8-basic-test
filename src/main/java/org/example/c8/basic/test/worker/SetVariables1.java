@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.c8.basic.test.Application;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 @Slf4j
 public class SetVariables1 {
@@ -18,16 +21,43 @@ public class SetVariables1 {
         if (log.isDebugEnabled()) log.debug("-----> {}: Enter", methodName);
         if (Application.isLogJobEnabled) Application.logJob(methodName, job, null);
 
-        String variables =
-                "{" +
-                "\"anInteger1\": 1," +
-                "\"aString1\": \"string1\"" +
+        Map<String, Object> variablesMap = new HashMap<>();
+
+        String myResponse = "{\n" +
+                "  \"Response\": [\n" +
+                "    {\n" +
+                "      \"UserPerson\": {\n" +
+                "        \"foo\": \"bar\"\n" +
+                "      },\n" +
+                "      \"SuperPerson\": {\n" +
+                "        \"name\": \"emma\"\n" +
+                "      }\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"OtherThing\": {\n" +
+                "        \"baz\": \"bat\"\n" +
+                "      }\n" +
+                "    }\n" +
+                "  ]\n" +
                 "}";
+
+//        String myResponse =
+//                "{\n" +
+//                        "  \"Response\": [\n" +
+//                        "    {\n" +
+//                        "      \"UserPerson\": {\n" +
+//                        "        \"foo\": \"bar\"\n" +
+//                        "      }\n" +
+//                        "    }\n" +
+//                        "  ]\n" +
+//                        "}";
+//
+        variablesMap.put("myResponse", myResponse);
 
         // This is useful for when special handling of successful and / or unsuccessful job completion is necessary.
         // To use this, "autoComplete = false" must be set in the @JobWorker annotation.
         client.newCompleteCommand(job.getKey())
-                .variables(variables).send().whenComplete((result, exception) -> {
+                .variables(variablesMap).send().whenComplete((result, exception) -> {
                     if (exception == null) {
                         if (log.isDebugEnabled()) log.debug("-----> {}: Completed job successfully", methodName);
                     } else {
