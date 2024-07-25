@@ -1,15 +1,54 @@
 # Local Zeebe Cluster
+common:
+  keycloak:
+    realm: camunda-platform
+    tokenUrl: http://127.0.0.1:18080/auth/realms/camunda-platform/protocol/openid-connect/token
+    url: http://127.0.0.1:18080
 zeebe:
+  authorization:
+    server:
+      url: http://127.0.0.1:18080/auth/realms/camunda-platform/protocol/openid-connect/token
+#      url: https://local.eabpm.de/auth/realms/camunda-platform/protocol/openid-connect/token
   client:
     broker:
-      gateway-address: 127.0.0.1:26500
+      # zeebe.client.broker.gateway-address is deprecated since 8.5.0.
+      gateway-address: http://127.0.0.1:26500
+      grpc-address: http://127.0.0.1:26500
+#      grpc-address: https://grpc.zeebe.local.eabpm.de
+#      rest-address: https://rest.zeebe.local.eabpm.de
+    connection-mode: ADDRESS # Connection mode can be set to "CLOUD" (SaaS) or "ADDRESS" (Self-Managed).
+#    default-tenant-id: "test"
+#    default-job-worker-tenant-ids: "test"
+    id: "zeebe"
+    secret: "SetThisToMakeHelmUpgradesEasy"
+    default-job-worker-stream-enabled: false
     message:
       timeToLive: P7D
     security:
+#      cert-path: /usr/local/share/ca-certificates/dev.c8.separated.crt
       plaintext: true
+  token:
+    audience: "zeebe-api"
     worker:
       max-jobs-active: 32
-      threads: 20
+      threads: 2
+
+#camunda:
+#  client:
+#    zeebe:
+#      execution-threads: 2
+#      message-time-to-live: PT1H
+#      max-message-size: 4
+#      request-timeout: PT10S
+#      ca-certificate-path: path/to/certificate
+#      keep-alive: PT45S
+##      override-authority: host:port
+#      prefer-rest-over-grpc: true
+#      grpc-address: http://localhost:26500
+#      rest-address: http://localhost:8080
+#      defaults:
+#        type: foo
+#        max-jobs-active: 32
 
 logging:
 #  file:

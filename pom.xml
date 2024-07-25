@@ -9,24 +9,25 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <spin.version>1.21.0</spin.version>
-        <zeebe.starter.version>8.2.4</zeebe.starter.version>
-        <spring.version>2.7.7</spring.version>
+        <spring.version>3.2.5</spring.version>
+        <camunda.sdk.version>8.5.0</camunda.sdk.version>
         <lombok.version>1.18.28</lombok.version>
-        <jackson.version>2.15.2</jackson.version>
+        <slf4j.version>2.0.13</slf4j.version>
+        <jackson.version>2.15.4</jackson.version>
 
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.version>3.13.0</maven.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.camunda.spin</groupId>
-                <artifactId>camunda-spin-bom</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
                 <scope>import</scope>
                 <type>pom</type>
-                <version>${spin.version}</version>
+                <version>${spring.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -34,8 +35,8 @@
     <dependencies>
         <dependency>
             <groupId>io.camunda</groupId>
-            <artifactId>spring-zeebe-starter</artifactId>
-            <version>${zeebe.starter.version}</version>
+            <artifactId>spring-boot-starter-camunda-sdk</artifactId>
+            <version>${camunda.sdk.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -43,14 +44,15 @@
             <version>${lombok.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.camunda.spin</groupId>
-            <artifactId>camunda-spin-dataformat-json-jackson</artifactId>
-            <version>${spin.version}</version>
         </dependency>
     </dependencies>
 
@@ -74,9 +76,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.version}</version>
                 <configuration>
-                    <source>9</source>
-                    <target>9</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>

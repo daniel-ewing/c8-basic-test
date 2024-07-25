@@ -3,7 +3,6 @@ package org.example.c8.basic.test;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
-import io.camunda.zeebe.spring.client.EnableZeebeClient;
 import io.camunda.zeebe.spring.client.annotation.Deployment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -14,14 +13,13 @@ import org.springframework.context.event.EventListener;
 import java.time.Instant;
 
 @SpringBootApplication
-@EnableZeebeClient
 @Slf4j
 @Deployment(resources = "classpath*:/bpmn/**/*.bpmn")
 public class Application {
     public final static boolean isLogJobEnabled = false;
     private final static String processKey = "simple-variables";
 
-    private ZeebeClient client;
+    private final ZeebeClient client;
 
     public Application(ZeebeClient client) {
         this.client = client;
@@ -59,7 +57,10 @@ public class Application {
 
     public static void logJob(final String caller, final ActivatedJob job, Object parameterValue) {
         log.info("-----> {}: logJob:\n" +
-                "[type: {}, key: {}, element: {}, workflow instance: {}, deadline: {}]\n[headers: {}]\n[variables: {}]\n[parameter: {}]",
+                "[type: {}, key: {}, element: {}, workflow instance: {}, deadline: {}]\n" +
+                "[headers: {}]\n" +
+                "[variables: {}]\n" +
+                "[parameter: {}]",
                 caller,
                 job.getType(),
                 job.getKey(),
