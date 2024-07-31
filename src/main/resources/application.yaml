@@ -1,37 +1,29 @@
-# Local Zeebe Cluster
-common:
-  keycloak:
-    realm: camunda-platform
-    tokenUrl: http://127.0.0.1:18080/auth/realms/camunda-platform/protocol/openid-connect/token
-    url: http://127.0.0.1:18080
+## Local Zeebe Cluster
 zeebe:
   authorization:
     server:
       url: http://127.0.0.1:18080/auth/realms/camunda-platform/protocol/openid-connect/token
-#      url: https://local.eabpm.de/auth/realms/camunda-platform/protocol/openid-connect/token
   client:
     broker:
       # zeebe.client.broker.gateway-address is deprecated since 8.5.0.
-      gateway-address: http://127.0.0.1:26500
+#      gateway-address: http://127.0.0.1:26500
       grpc-address: http://127.0.0.1:26500
-#      grpc-address: https://grpc.zeebe.local.eabpm.de
-#      rest-address: https://rest.zeebe.local.eabpm.de
-    connection-mode: ADDRESS # Connection mode can be set to "CLOUD" (SaaS) or "ADDRESS" (Self-Managed).
+#    connection-mode: ADDRESS # Connection mode can be set to "CLOUD" (SaaS) or "ADDRESS" (Self-Managed).
 #    default-tenant-id: "test"
+#    default-job-worker-stream-enabled: false
 #    default-job-worker-tenant-ids: "test"
     id: "zeebe"
+#    message:
+#      timeToLive: P7D
     secret: "SetThisToMakeHelmUpgradesEasy"
-    default-job-worker-stream-enabled: false
-    message:
-      timeToLive: P7D
     security:
 #      cert-path: /usr/local/share/ca-certificates/dev.c8.separated.crt
       plaintext: true
   token:
     audience: "zeebe-api"
-    worker:
-      max-jobs-active: 32
-      threads: 2
+#    worker:
+#      max-jobs-active: 32
+#      threads: 2
 
 #camunda:
 #  client:
