@@ -10,7 +10,7 @@
 
     <properties>
         <spring.version>3.2.5</spring.version>
-        <camunda.sdk.version>8.5.6</camunda.sdk.version>
+        <camunda.sdk.version>8.6.12</camunda.sdk.version>
         <lombok.version>1.18.34</lombok.version>
         <slf4j.version>2.0.16</slf4j.version>
         <jackson.version>2.15.4</jackson.version>
@@ -22,13 +22,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <scope>import</scope>
-                <type>pom</type>
-                <version>${spring.version}</version>
-            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -38,22 +32,24 @@
             <artifactId>spring-boot-starter-camunda-sdk</artifactId>
             <version>${camunda.sdk.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>slf4j-simple</artifactId>-->
+<!--            <version>${slf4j.version}</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--            <artifactId>jackson-datatype-jsr310</artifactId>-->
+<!--            <version>${jackson.version}</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
