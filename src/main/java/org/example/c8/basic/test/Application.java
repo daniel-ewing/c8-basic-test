@@ -3,60 +3,82 @@ package org.example.c8.basic.test;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
-import io.camunda.zeebe.spring.client.EnableZeebeClient;
-import io.camunda.zeebe.spring.client.annotation.ZeebeDeployment;
+import io.camunda.zeebe.spring.client.annotation.Deployment;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 import java.time.Instant;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @SpringBootApplication
-@EnableZeebeClient
 @Slf4j
-@ZeebeDeployment(resources = "classpath*:/bpmn/**/*.bpmn")
+@Deployment(resources = "classpath*:/bpmn/**/*.bpmn")
 public class Application {
-    private final static String processKey = "simple-variables";
+    public final static boolean isLogJobEnabled = false;
+    public final static boolean isPeriodicProcessStarterEnabled = false;
+    public final static String processKey = "simple-variables";
 
-    @Autowired
-    private ZeebeClient client;
+    private final ZeebeClient client;
+
+    public Application(ZeebeClient client) {
+        this.client = client;
+    }
 
     public static void main(final String... args) {
         SpringApplication.run(Application.class, args);
     }
 
+    public static Map<String, Object> generateVariables() {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("uuid", UUID.randomUUID().toString());
+        variables.put("startDateTime", new Date());
+        return variables;
+    }
+
     @EventListener
     private void ApplicationReadyEvent(ApplicationReadyEvent event) {
-            if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent: Enter");
-            for (int pi = 1; pi <= 5; pi++) {
+        if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent: Enter");
 
-                // blocking / synchronous creation of a process instance
-                ProcessInstanceEvent processInstanceEvent = client.newCreateInstanceCommand()
-                        .bpmnProcessId(processKey)
-                        .latestVersion()
-                        .send()
-                        .join();
+        for (int pi = 1; pi <= 1; pi++) {
 
-                // non-blocking / asynchronous creation of a process instance  => returns a future
-//                final ZeebeFuture<ProcessInstanceEvent> future = client.newCreateInstanceCommand()
-//                        .bpmnProcessId(processKey)
-//                        .latestVersion()
-//                        .send();
+            Map<String, Object> variables = generateVariables();
 
-                if ((pi % 1000) == 0) {
-                    if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent created: {} process instances", pi);
-                }
+            // blocking / synchronous creation of a process instance => returns an instance
+            ProcessInstanceEvent processInstanceEvent = client.newCreateInstanceCommand()
+                    .bpmnProcessId(processKey)
+                    .latestVersion()
+                    .variables(variables)
+                    .send()
+                    .join();
+
+
+//            // non-blocking / asynchronous creation of a process instance  => returns a future
+//            final ZeebeFuture<ProcessInstanceEvent> future = client.newCreateInstanceCommand()
+//                    .bpmnProcessId(processKey)
+//                    .latestVersion()
+//                    .variables(variables)
+//                    .send();
+
+            if ((pi % 1000) == 0) {
+                if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent created: {} process instances", pi);
             }
+        }
 
-            if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent: Exit");
+        if (log.isDebugEnabled()) log.debug("-----> ApplicationReadyEvent: Exit");
     }
 
     public static void logJob(final String caller, final ActivatedJob job, Object parameterValue) {
         log.info("-----> {}: logJob:\n" +
-                "[type: {}, key: {}, element: {}, workflow instance: {}, deadline: {}]\n[headers: {}]\n[variables: {}]\n[parameter: {}]",
+                "[type: {}, key: {}, element: {}, workflow instance: {}, deadline: {}]\n" +
+                "[headers: {}]\n" +
+                "[variables: {}]\n" +
+                "[parameter: {}]",
                 caller,
                 job.getType(),
                 job.getKey(),
